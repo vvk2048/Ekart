@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <link rel="stylesheet" th:href="@{/style.css}">
+    <title></title></head>
+
+<body>
+<header th:fragment="header">
+    <nav class="navbar p-2" role="navigation" aria-label="main navigation">
+        <div class="navbar-brand">
+            <a class="navbar-item-img-max-height 50 ibot-logo" th:href="@{/}">
+                <img id="ibot-logo" th:src="@{/images/IBOT_logo.png}" width="50" height="50" alt="logo" src=""/>
+            </a>
+            <a class="navbar-item is-size-5" th:href="@{/}">IBOT</a>
+            <div class="is-hidden-desktop navbar-item" style="margin-left: auto">
+                <a class="button" th:href="@{/cart/}" sec:authorize="!hasAnyRole('ROLE_ADMIN')">
+                            <span class="icon">
+                              <i class="fas fa-shopping-basket"></i>
+                            </span>
+                    <span id="cart-total-amount-mobile">Price</span>
+                </a>
+            </div>
+            <a role="button" class="navbar-burger mx-0" aria-label="menu" aria-expanded="false"
+               data-target="navbarBasicExample">
+                <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+            </a>
+        </div>
+
+        <div id="navbarBasicExample" class="navbar-menu">
+            <div class="navbar-start">
+                <div class="navbar-item has-dropdown is-hoverable">
+                    <a class="navbar-link" th:href="@{/browse}">
+                        Products
+                    </a>
+
+                    <div class="navbar-dropdown">
+                        <a class="navbar-item" th:href="@{/browse(category=ELECTRONICS)}">
+                            Electronics
+                        </a>
+                        <a class="navbar-item" th:href="@{/browse(category=FOOD)}">
+                            Food
+                        </a>
+                        <a class="navbar-item" th:href="@{/browse(category=BOOKS)}">
+                            Books
+                        </a>
+                        <a class="navbar-item" th:href="@{/browse(category=FEATURED)}">
+                            Featured
+                        </a>
+                    </div>
+                </div>
+
+                <a class="navbar-item" th:href="@{/browse(category=OFFERS)}">
+                    Offers
+                </a>
+
+                <div class="navbar-item" th:id="search-box">
+                    <input class="input is-normal is-fullwidth" type="text" placeholder="Search" id="search-input">
+                    <div class="search-result-box is-hidden-touch">
+                    </div>
+                </div>
+            </div>
+            <div class="navbar-end">
+                <div class="navbar-item">
+                    <div class="buttons">
+                        <a class="button is-hidden-touch" th:href="@{/cart/}"
+                           sec:authorize="!hasAnyRole('ROLE_ADMIN')">
+                            <span class="icon">
+                              <i class="fas fa-shopping-basket"></i>
+                            </span>
+                            <span id="cart-total-amount">Price</span>
+                        </a>
+                        <a class="button is-primary" th:href="@{/register}" sec:authorize="isAnonymous()">
+                            <strong>Sign up</strong>
+                        </a>
+                        <a class="button is-light" th:href="@{/login}" sec:authorize="isAnonymous()">
+                            Log in
+                        </a>
+                        <a class="button is-light is-info" th:href="@{/user/orders}"
+                           sec:authorize="hasAnyRole('ROLE_USER')">
+                            <span class="icon">
+                              <i class="fas fa-box-open"></i>
+                            </span>
+                            <span>Orders</span>
+                        </a>
+                        <a class="button is-light is-info" th:href="@{/admin/orders}"
+                           sec:authorize="hasAnyRole('ROLE_ADMIN')">
+                            <span class="icon">
+                              <i class="fas fa-box-open"></i>
+                            </span>
+                            <span>Orders</span>
+                        </a>
+                        <a class="button is-light is-info" th:href="@{/user/contact}"
+                           sec:authorize="hasAnyRole('ROLE_USER')">
+                            <span class="icon">
+                              <i class="fas fa-question-circle"></i>
+                            </span>
+                            <span>Contact</span>
+                        </a>
+                        <a class="button is-light is-info" th:href="@{/admin/contact}"
+                           sec:authorize="hasAnyRole('ROLE_ADMIN')">
+                            <span class="icon">
+                              <i class="fas fa-question-circle"></i>
+                            </span>
+                            <span>Contact</span>
+                        </a>
+                        <a class="button is-light is-info" th:href="@{/admin/add}"
+                           sec:authorize="hasAnyRole('ROLE_ADMIN')">
+                            <span class="icon">
+                              <i class="fas fa-box-open"></i>
+                            </span>
+                            <span>Add Product</span>
+                        </a>
+                        <a class="button is-light" th:href="@{/logout}" sec:authorize="isAuthenticated()">
+                            Sign out
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+</header>
+
+<footer class="footer" th:fragment="footer">
+    <div class="content columns is-centered is-3 is-mobile">
+        <a class="fab fa-2x fa-instagram column is-narrow has-text-dark"
+           href="https://www.youtube.com/watch?v=dQw4w9WgXcQ&ab_channel=RickAstleyVEVO"></a>
+        <a class="fab fa-2x fa-facebook footer-icon column is-narrow has-text-dark"
+           href="https://www.youtube.com/watch?v=dQw4w9WgXcQ&ab_channel=RickAstleyVEVO"></a>
+        <a class="fab fa-2x fa-twitter footer-icon column is-narrow has-text-dark"
+           href="https://www.youtube.com/watch?v=dQw4w9WgXcQ&ab_channel=RickAstleyVEVO"></a>
+    </div>
+</footer>
+
+</body>
+
+</html>
