@@ -1,17 +1,24 @@
-# Use a minimal base image with OpenJDK 8
-FROM openjdk:8-jdk-alpine
+# FROM openjdk:8-jdk-alpine
+# RUN addgroup -S spring && adduser -S spring -G spring
+# USER spring:spring
+# ARG DEPENDENCY=target/dependency
+# COPY ${DEPENDENCY}/BOOT-INF/lib /app/lib
+# COPY ${DEPENDENCY}/META-INF /app/META-INF
+# COPY ${DEPENDENCY}/BOOT-INF/classes /app
 
-# Create a non-root user and set permissions
-RUN addgroup -S spring && adduser -S spring -G spring
-USER spring:spring
+# FROM maven:3.8.2-jdk-11 AS build
+# COPY . .
+# RUN mvn clean package -DskipTests
 
-# Define build argument for dependencies
-ARG DEPENDENCY=target/dependency
+#
+# Package stage
+#
+FROM maven:3.8.2-jdk-11 AS build
+COPY . .
+RUN mvn clean package -DskipTests
 
-# Copy application dependencies and classes
-COPY ${DEPENDENCY}/BOOT-INF/lib /app/lib
-COPY ${DEPENDENCY}/META-INF /app/META-INF
-COPY ${DEPENDENCY}/BOOT-INF/classes /app
-
-# Set the entry point for the application
-ENTRYPOINT ["java", "-cp", "app:app/lib/*", "ie.ucd.ibot.MyApplication"]
+FROM openjdk:11-jdk-slim
+COPY --from=build /target/demo-0.0.1-SNAPSHOT.jar demo.jar
+# ENV PORT=8080
+EXPOSE 8080
+ENTRYPOINT ["java","-cp","app:app/lib/*","ie.ucd.ibot.MyApplication"]
